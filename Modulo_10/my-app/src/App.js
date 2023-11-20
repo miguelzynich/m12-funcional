@@ -1,32 +1,27 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Form from './Components/Form';
 
-class App extends React.Component {
-  constructor(props){
-    super(props)
+const App = () => {
+  
+  const [marcas,setMarcas] = useState([])
 
-    this.state = {
-      marcas: []
-    }
-  }
-
-  componentDidMount() {
+  useEffect(()=> {
     fetch('https://parallelum.com.br/fipe/api/v1/carros/marcas', {
       method:'GET'
     })
     .then(response => response.json())
-    .then(data => this.setState({marcas: data}))
+    .then(data => setMarcas(data))
     .catch(err => console.log(err))
-  }
+  
+  }) 
 
-  render() {
-    return(
-      <div className='App'>
-        <Form marcas={this.state.marcas}/>
-      </div>
-    )
-  }
+  return(
+    <div className='App'>
+      <Form marcas={marcas}/>
+    </div>
+  )
+
 }
 
 export default App;
